@@ -1,9 +1,11 @@
-package Property::Lookup::Hash;
-use 5.006;
-use warnings;
+use 5.008;
 use strict;
-our $VERSION = '0.01';
-use base 'Property::Lookup::Base';
+use warnings;
+
+package Property::Lookup::Hash;
+our $VERSION = '1.100780';
+# ABSTRACT: Hash-based property lookup layer
+use parent 'Property::Lookup::Base';
 __PACKAGE__->mk_hash_accessors(qw(hash));
 
 sub AUTOLOAD {
@@ -12,11 +14,18 @@ sub AUTOLOAD {
     $self->hash->{$method};
 }
 1;
+
+
 __END__
+=pod
 
 =head1 NAME
 
 Property::Lookup::Hash - Hash-based property lookup layer
+
+=head1 VERSION
+
+version 1.100780
 
 =head1 SYNOPSIS
 
@@ -45,49 +54,48 @@ This class implements a hash-based property lookup layer.
 
 =head1 METHODS
 
-=over 4
-
-=item C<hash>
+=head2 hash
 
 This hash accessor holds the hash in which values are being looked up.
 
-=item C<AUTOLOAD>
+=head2 AUTOLOAD
 
 Determines which key is being looked up, the simply consults the C<hash>
 accessor for that key.
 
-=back
+=head1 INSTALLATION
+
+See perlmodinstall for information and options on installing Perl modules.
 
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
 Please report any bugs or feature requests through the web interface at
-L<http://rt.cpan.org>.
-
-=head1 INSTALLATION
-
-See perlmodinstall for information and options on installing Perl modules.
+L<http://rt.cpan.org/Public/Dist/Display.html?Name=Property-Lookup>.
 
 =head1 AVAILABILITY
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see L<http://search.cpan.org/dist/Property-Lookup/>.
+site near you, or see
+L<http://search.cpan.org/dist/Property-Lookup/>.
 
-The development version lives at L<http://github.com/hanekomu/property-lookup/>.
+The development version lives at
+L<http://github.com/hanekomu/Property-Lookup/>.
 Instead of sending patches, please fork this project using the standard git
 and github infrastructure.
 
-=head1 AUTHORS
+=head1 AUTHOR
 
-Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
+  Marcel Gruenauer <marcel@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2009 by Marcel GrE<uuml>nauer
+This software is copyright (c) 2010 by Marcel Gruenauer.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
+

@@ -1,14 +1,16 @@
-package Property::Lookup;
-use 5.006;
-use warnings;
+use 5.008;
 use strict;
+use warnings;
+
+package Property::Lookup;
+our $VERSION = '1.100780';
+# ABSTRACT: Multi-layer object property lookup
 use Error::Hierarchy::Util qw/assert_defined load_class/;
 use Property::Lookup::Local;
 use Property::Lookup::Hash;
 
 # Don't rely on UNIVERSAL::throw if we defined an AUTOLOAD...
 use Error::Hierarchy::Internal::CustomMessage;
-our $VERSION = '0.01';
 use base qw(Class::Accessor::Complex Class::Accessor::Constructor);
 __PACKAGE__->mk_singleton_constructor(qw(new instance))
   ->mk_array_accessors(qw(layers))
@@ -80,11 +82,18 @@ sub AUTOLOAD {
     undef;
 }
 1;
+
+
 __END__
+=pod
 
 =head1 NAME
 
-Property::Lookup - multi-layer object property lookup
+Property::Lookup - Multi-layer object property lookup
+
+=head1 VERSION
+
+version 1.100780
 
 =head1 SYNOPSIS
 
@@ -128,21 +137,19 @@ a singleton.
 
 =head1 METHODS
 
-=over 4
-
-=item C<new>
+=head2 new
 
 Creates the singleton object.
 
-=item C<instance>
+=head2 instance
 
 Synonymous for C<new>.
 
-=item C<init>
+=head2 init
 
 Called when the object is constructed, it initializes the local and default layers.
 
-=item C<local_layer>
+=head2 local_layer
 
     local %Property::Lookup::Local::opt = (bar => 'baz');
 
@@ -151,7 +158,7 @@ temporarily override lookup values; if you use C<local>, the values will
 automatically forgotten at the end of the current scope. When a property is
 looked up via C<AUTOLOAD>, this layer is always checked first.
 
-=item C<default_layer>
+=head2 default_layer
 
     my $config = Property::Lookup->new;
     $config->default_layer({ foo => 42 });
@@ -160,7 +167,7 @@ This is initialized as a L<Property::Lookup::Hash> object. It can be used to
 set default values. When a property is looked up via C<AUTOLOAD>, this layer
 is always checked last.
 
-=item C<add_layer>
+=head2 add_layer
 
 This method adds a layer to the singleton lookup object. The first argument
 determines which kind of layer is added; the rest are arguments passed to the
@@ -182,55 +189,56 @@ second argument is the name of the YAML file from which values are taken.
 If the layer-specific arguments are wrong, or the layer type is not one of the
 names given above, an exception occurs.
 
-=item C<AUTOLOAD>
+=head2 AUTOLOAD
 
 Determines which method was called, then asks every layer in turn. It returns
 the first defined answer it finds. The local layer is special - it always
 comes first, no matter which layers have been specified. Likewise for the
 default layer, which always comes last.
 
-=item C<DEFAULTS>
+=head2 DEFAULTS
 
 This accessor is used by L<Class::Accessor::Constructor>. It is defined as an
 empty list here so C<AUTOLOAD> won't try to handle it.
 
-=item C<FIRST_CONSTRUCTOR_ARGS>
+=head2 FIRST_CONSTRUCTOR_ARGS
 
 This accessor is used by L<Class::Accessor::Constructor>. It is defined as an
 empty list here so C<AUTOLOAD> won't try to handle it.
 
-=back
+=head1 INSTALLATION
+
+See perlmodinstall for information and options on installing Perl modules.
 
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
 Please report any bugs or feature requests through the web interface at
-L<http://rt.cpan.org>.
-
-=head1 INSTALLATION
-
-See perlmodinstall for information and options on installing Perl modules.
+L<http://rt.cpan.org/Public/Dist/Display.html?Name=Property-Lookup>.
 
 =head1 AVAILABILITY
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see L<http://search.cpan.org/dist/Property-Lookup/>.
+site near you, or see
+L<http://search.cpan.org/dist/Property-Lookup/>.
 
-The development version lives at L<http://github.com/hanekomu/property-lookup/>.
+The development version lives at
+L<http://github.com/hanekomu/Property-Lookup/>.
 Instead of sending patches, please fork this project using the standard git
 and github infrastructure.
 
-=head1 AUTHORS
+=head1 AUTHOR
 
-Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
+  Marcel Gruenauer <marcel@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2009 by Marcel GrE<uuml>nauer
+This software is copyright (c) 2010 by Marcel Gruenauer.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
+

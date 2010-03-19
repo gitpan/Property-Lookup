@@ -1,9 +1,10 @@
+
 This is the Perl distribution Property-Lookup.
 
 ## Installation
 
-Property-Lookup installation is straightforward. If your CPAN shell is
-set up, you should just be able to do
+Property-Lookup installation is straightforward.
+If your CPAN shell is set up, you should just be able to do
 
     % cpan Property::Lookup
 
@@ -18,10 +19,9 @@ Then install it:
 
 ## Documentation
 
-Property-Lookup documentation is available as in POD. So you can do:
+Property-Lookup documentation is available as in POD.
+So you can do:
 
     % perldoc Property::Lookup
 
-to read the documentation online with your favorite pager.
-
-Marcel Gruenauer
+to read the documentation with your favorite pager.

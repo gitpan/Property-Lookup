@@ -1,9 +1,11 @@
-package Property::Lookup::Base;
-use 5.006;
-use warnings;
+use 5.008;
 use strict;
-our $VERSION = '0.01';
-use base qw(Class::Accessor::Constructor);
+use warnings;
+
+package Property::Lookup::Base;
+our $VERSION = '1.100780';
+# ABSTRACT: Base class for property lookup classes
+use parent 'Class::Accessor::Constructor';
 __PACKAGE__->mk_constructor;
 
 # Define functions and class methods lest they be handled by AUTOLOAD.
@@ -15,11 +17,18 @@ sub DESTROY                { }
 # unknown to this layer.
 sub AUTOLOAD { }
 1;
+
+
 __END__
+=pod
 
 =head1 NAME
 
 Property::Lookup::Base - Base class for property lookup classes
+
+=head1 VERSION
+
+version 1.100780
 
 =head1 SYNOPSIS
 
@@ -48,50 +57,49 @@ This is the base class for property lookup layers.
 
 =head1 METHODS
 
-=over 4
-
-=item C<DEFAULTS>
+=head2 DEFAULTS
 
 This accessor is used by L<Class::Accessor::Constructor>. It is defined as an
 empty list here so C<AUTOLOAD> won't try to handle it.
 
-=item C<FIRST_CONSTRUCTOR_ARGS>
+=head2 FIRST_CONSTRUCTOR_ARGS
 
 This accessor is used by L<Class::Accessor::Constructor>. It is defined as an
 empty list here so C<AUTOLOAD> won't try to handle it.
 
-=back
+=head1 INSTALLATION
+
+See perlmodinstall for information and options on installing Perl modules.
 
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported.
 
 Please report any bugs or feature requests through the web interface at
-L<http://rt.cpan.org>.
-
-=head1 INSTALLATION
-
-See perlmodinstall for information and options on installing Perl modules.
+L<http://rt.cpan.org/Public/Dist/Display.html?Name=Property-Lookup>.
 
 =head1 AVAILABILITY
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see L<http://search.cpan.org/dist/Property-Lookup/>.
+site near you, or see
+L<http://search.cpan.org/dist/Property-Lookup/>.
 
-The development version lives at L<http://github.com/hanekomu/property-lookup/>.
+The development version lives at
+L<http://github.com/hanekomu/Property-Lookup/>.
 Instead of sending patches, please fork this project using the standard git
 and github infrastructure.
 
-=head1 AUTHORS
+=head1 AUTHOR
 
-Marcel GrE<uuml>nauer, C<< <marcel@cpan.org> >>
+  Marcel Gruenauer <marcel@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2009 by Marcel GrE<uuml>nauer
+This software is copyright (c) 2010 by Marcel Gruenauer.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
+
