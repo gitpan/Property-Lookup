@@ -1,8 +1,8 @@
 NAME
-    Property::Lookup - Multi-layer object property lookup
+    Property::Lookup - Object property lookup across multiple layers
 
 VERSION
-    version 1.100780
+    version 1.101400
 
 SYNOPSIS
         use Property::Lookup;
@@ -94,6 +94,17 @@ METHODS
     If the layer-specific arguments are wrong, or the layer type is not one
     of the names given above, an exception occurs.
 
+  get_layers
+    Returns the list of layer objects. The local layer is special; it always
+    comes first, no matter which layers have been specified. Likewise for
+    the default layer, which always comes last.
+
+  get_config
+    This method calls "get_config()" on all layers and accumulates the data
+    in a hash, which is then returned. The individual "get_config()" methods
+    are supposed to return the data with which a layer was configured with:
+    The options hash for the "Local" layer; the hash for a Hash layer.
+
   AUTOLOAD
     Determines which method was called, then asks every layer in turn. It
     returns the first defined answer it finds. The local layer is special -
@@ -133,7 +144,7 @@ AUTHOR
       Marcel Gruenauer <marcel@cpan.org>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2010 by Marcel Gruenauer.
+    This software is copyright (c) 2009 by Marcel Gruenauer.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.

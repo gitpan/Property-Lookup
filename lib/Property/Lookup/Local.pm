@@ -3,7 +3,9 @@ use strict;
 use warnings;
 
 package Property::Lookup::Local;
-our $VERSION = '1.100780';
+BEGIN {
+  $Property::Lookup::Local::VERSION = '1.101400';
+}
 # ABSTRACT: Package hash-based property lookup layer
 use parent 'Property::Lookup::Base';
 our %opt;    # so it can be overridden via local()
@@ -14,6 +16,12 @@ sub AUTOLOAD {
     our %opt;
     $opt{$method};
 }
+
+sub get_config {
+    our %opt;
+    wantarray ? %opt: \%opt;
+}
+
 1;
 
 
@@ -26,7 +34,7 @@ Property::Lookup::Local - Package hash-based property lookup layer
 
 =head1 VERSION
 
-version 1.100780
+version 1.101400
 
 =head1 SYNOPSIS
 
@@ -56,6 +64,10 @@ package global C<%opt> which the user can override - usually using C<local> so
 only the scope in which this layer is used is affected.
 
 =head1 METHODS
+
+=head2 get_config
+
+Returns the options hash with which this layer was configured.
 
 =head2 AUTOLOAD
 
@@ -91,7 +103,7 @@ and github infrastructure.
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Marcel Gruenauer.
+This software is copyright (c) 2009 by Marcel Gruenauer.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

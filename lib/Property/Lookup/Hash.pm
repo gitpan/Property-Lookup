@@ -3,7 +3,9 @@ use strict;
 use warnings;
 
 package Property::Lookup::Hash;
-our $VERSION = '1.100780';
+BEGIN {
+  $Property::Lookup::Hash::VERSION = '1.101400';
+}
 # ABSTRACT: Hash-based property lookup layer
 use parent 'Property::Lookup::Base';
 __PACKAGE__->mk_hash_accessors(qw(hash));
@@ -11,8 +13,14 @@ __PACKAGE__->mk_hash_accessors(qw(hash));
 sub AUTOLOAD {
     my $self = shift;
     (my $method = our $AUTOLOAD) =~ s/.*://;
-    $self->hash->{$method};
+    $self->hash($method);
 }
+
+sub get_config {
+    my $self = shift;
+    $self->hash;
+}
+
 1;
 
 
@@ -25,7 +33,7 @@ Property::Lookup::Hash - Hash-based property lookup layer
 
 =head1 VERSION
 
-version 1.100780
+version 1.101400
 
 =head1 SYNOPSIS
 
@@ -57,6 +65,10 @@ This class implements a hash-based property lookup layer.
 =head2 hash
 
 This hash accessor holds the hash in which values are being looked up.
+
+=head2 get_config
+
+Returns the hash with which this layer was configured.
 
 =head2 AUTOLOAD
 
@@ -92,7 +104,7 @@ and github infrastructure.
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Marcel Gruenauer.
+This software is copyright (c) 2009 by Marcel Gruenauer.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

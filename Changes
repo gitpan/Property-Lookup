@@ -1,5 +1,9 @@
 Revision history for Perl extension Property-Lookup
 
+1.101400  2010-05-20 14:32:04 Europe/Vienna
+    - add get_config()
+    - added documentation
+
 1.100780  2010-03-19 21:45:44 Europe/Vienna
     - converted distribution to Dist::Zilla-style
     - use parent instead of use base

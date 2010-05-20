@@ -3,15 +3,17 @@ use strict;
 use warnings;
 
 package Property::Lookup;
-our $VERSION = '1.100780';
-# ABSTRACT: Multi-layer object property lookup
+BEGIN {
+  $Property::Lookup::VERSION = '1.101400';
+}
+# ABSTRACT: Object property lookup across multiple layers
 use Error::Hierarchy::Util qw/assert_defined load_class/;
 use Property::Lookup::Local;
 use Property::Lookup::Hash;
 
 # Don't rely on UNIVERSAL::throw if we defined an AUTOLOAD...
 use Error::Hierarchy::Internal::CustomMessage;
-use base qw(Class::Accessor::Complex Class::Accessor::Constructor);
+use parent qw(Class::Accessor::Complex Class::Accessor::Constructor);
 __PACKAGE__->mk_singleton_constructor(qw(new instance))
   ->mk_array_accessors(qw(layers))
   ->mk_scalar_accessors(qw(local_layer default_layer));
@@ -56,6 +58,26 @@ sub add_layer {
     }
 }
 
+sub get_layers {
+    my $self = shift;
+    ($self->local_layer, $self->layers, $self->default_layer)
+}
+
+# FIXME Provide a way to tell Property::Lookup about cumulative methods.
+# get_config() differs from all other autoloaded methods in that the results
+# are cumulative over the layers; for the other methods, the first layer that
+# responds wins. So maybe the user of Property::Lookup should be able to
+# specify which methods are supposed to be cumulative.
+
+sub get_config {
+    my $self = shift;
+    my %config;
+    for my $layer ($self->get_layers) {
+        %config = (%config, $layer->get_config);
+    }
+    wantarray ? %config : \%config;
+}
+
 # Define functions and class methods lest they be handled by AUTOLOAD.
 sub DEFAULTS               { () }
 sub FIRST_CONSTRUCTOR_ARGS { () }
@@ -72,15 +94,13 @@ sub AUTOLOAD {
         );
     }
 
-    # The local layer is special -- it always comes first, no matter which
-    # layers have been specified. Likewise for the default layer, which always
-    # comes last.
-    for my $layer ($self->local_layer, $self->layers, $self->default_layer) {
+    for my $layer ($self->get_layers) {
         my $answer = $layer->$method;
         return $answer if defined $answer;
     }
     undef;
 }
+
 1;
 
 
@@ -89,11 +109,11 @@ __END__
 
 =head1 NAME
 
-Property::Lookup - Multi-layer object property lookup
+Property::Lookup - Object property lookup across multiple layers
 
 =head1 VERSION
 
-version 1.100780
+version 1.101400
 
 =head1 SYNOPSIS
 
@@ -189,6 +209,19 @@ second argument is the name of the YAML file from which values are taken.
 If the layer-specific arguments are wrong, or the layer type is not one of the
 names given above, an exception occurs.
 
+=head2 get_layers
+
+Returns the list of layer objects. The local layer is special; it always comes
+first, no matter which layers have been specified. Likewise for the default
+layer, which always comes last.
+
+=head2 get_config
+
+This method calls C<get_config()> on all layers and accumulates the data in a
+hash, which is then returned. The individual C<get_config()> methods are
+supposed to return the data with which a layer was configured with: The
+options hash for the C<Local> layer; the hash for a L<Hash> layer.
+
 =head2 AUTOLOAD
 
 Determines which method was called, then asks every layer in turn. It returns
@@ -235,7 +268,7 @@ and github infrastructure.
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Marcel Gruenauer.
+This software is copyright (c) 2009 by Marcel Gruenauer.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

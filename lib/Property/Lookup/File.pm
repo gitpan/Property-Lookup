@@ -3,7 +3,9 @@ use strict;
 use warnings;
 
 package Property::Lookup::File;
-our $VERSION = '1.100780';
+BEGIN {
+  $Property::Lookup::File::VERSION = '1.101400';
+}
 # ABSTRACT: File-based property lookup layer
 use File::Basename;
 use parent 'Property::Lookup::Hash';
@@ -37,7 +39,7 @@ Property::Lookup::File - File-based property lookup layer
 
 =head1 VERSION
 
-version 1.100780
+version 1.101400
 
 =head1 SYNOPSIS
 
@@ -113,7 +115,7 @@ and github infrastructure.
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Marcel Gruenauer.
+This software is copyright (c) 2009 by Marcel Gruenauer.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

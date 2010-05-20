@@ -3,7 +3,9 @@ use strict;
 use warnings;
 
 package Property::Lookup::Base;
-our $VERSION = '1.100780';
+BEGIN {
+  $Property::Lookup::Base::VERSION = '1.101400';
+}
 # ABSTRACT: Base class for property lookup classes
 use parent 'Class::Accessor::Constructor';
 __PACKAGE__->mk_constructor;
@@ -16,6 +18,7 @@ sub DESTROY                { }
 # Each lookup layer should answer any call, so return undef for all options
 # unknown to this layer.
 sub AUTOLOAD { }
+
 1;
 
 
@@ -28,7 +31,7 @@ Property::Lookup::Base - Base class for property lookup classes
 
 =head1 VERSION
 
-version 1.100780
+version 1.101400
 
 =head1 SYNOPSIS
 
@@ -96,7 +99,7 @@ and github infrastructure.
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Marcel Gruenauer.
+This software is copyright (c) 2009 by Marcel Gruenauer.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
